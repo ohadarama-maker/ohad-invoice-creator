@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ohad SoundTechnician - Invoice Creator</title>
+
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 30px 15px;
+    background: #eef1f4;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
+  }
+
+  .invoice {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 45px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.12);
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 4px solid #1f4e79;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+  }
+
+  .brand {
+    font-size: 25px;
+    font-weight: bold;
+    color: #1f4e79;
+  }
+
+  .brand small {
+    display: block;
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: normal;
+    color: #777;
+  }
+
+  .invoice-title {
+    text-align: right;
+  }
+
+  .invoice-title h1 {
+    margin: 0;
+    color: #1f4e79;
+    font-size: 34px;
+  }
+
+  .invoice-title p {
+    margin: 8px 0 0;
+    color: #777;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #1f4e79;
+    margin-bottom: 5px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    border: 1px solid #ccd3da;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    background: white;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #1f4e79;
+  }
+
+  .top-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 25px;
+  }
+
+  .field {
+    margin-bottom: 12px;
+  }
+
+  .new-client {
+    display: none;
+    background: #f5f7f9;
+    padding: 18px;
+    margin: 10px 0 20px;
+    border-radius: 6px;
+  }
+
+  .new-client-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .project-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 20px;
+  }
+
+  .invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+
+  .invoice-table th {
+    background: #1f4e79;
+    color: white;
+    padding: 11px 8px;
+    text-align: left;
+    font-size: 13px;
+  }
+
+  .invoice-table th:nth-child(n+2) {
+    text-align: right;
+  }
+
+  .invoice-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 8px 5px;
+  }
+
+  .invoice-table input,
+  .invoice-table select {
+    padding: 8px;
+  }
+
+  .number {
+    text-align: right;
+  }
+
+  .subtotal {
+    text-align: right;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+
+  .remove {
+    border: none;
+    background: transparent;
+    color: #b42318;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .add-line {
+    margin-top: 12px;
+    padding: 9px 15px;
+    border: 1px solid #1f4e79;
+    background: white;
+    color: #1f4e79;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .add-line:hover {
+    background: #eef5fb;
+  }
+
+  .totals-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 25px;
+  }
+
+  .totals {
+    width: 380px;
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 12px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .grand-total {
+    background: #1f4e79;
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+    border: none;
+  }
+
+  .comments {
+    margin-top: 30px;
+  }
+
+  .create {
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+    border: none;
+    border-radius: 6px;
+    background: #1f4e79;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .create:hover {
+    background: #163a5b;
+  }
+
+  @media (max-width: 700px) {
+    .invoice { padding: 22px 15px; }
+
+    .header {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .invoice-title { text-align: left; }
+
+    .top-fields,
+    .project-fields,
+    .new-client-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .invoice-table {
+      font-size: 12px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="invoice">
+
+  <div class="header">
+    <div class="brand">
+      Ohad SoundTechnician
+      <small>Live & Studio</small>
+    </div>
+
+    <div class="invoice-title">
+      <h1>FACTUUR</h1>
+      <p>Invoice Creator</p>
+    </div>
+  </div>
+
+  <div class="top-fields">
+
+    <div class="field">
+      <label>Client</label>
+      <select id="client" onchange="clientChanged()">
+        <option value="">Kies client...</option>
+        <option value="HvA">De Heeren van Aemstel</option>
+        <option value="new">➕ Nieuwe client toevoegen</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Datum</label>
+      <input type="date" id="invoiceDate">
+    </div>
+
+  </div>
+
+  <div class="new-client" id="newClient">
+
+    <div class="new-client-grid">
+
+      <div>
+        <label>Bedrijf</label>
+        <input id="company">
+      </div>
+
+      <div>
+        <label>Contactpersoon</label>
+        <input id="contact">
+      </div>
+
+      <div>
+        <label>Adres</label>
+        <input id="address">
+      </div>
+
+      <div>
+        <label>E-mail</label>
+        <input type="email" id="email">
+      </div>
+
+      <div>
+        <label>Telefoon</label>
+        <input id="phone">
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="project-fields">
+
+    <div>
+      <label>Projectnaam</label>
+      <input id="project">
+    </div>
+
+    <div>
+      <label>Periode</label>
+      <input id="period">
+    </div>
+
+  </div>
+
+  <table class="invoice-table">
+
+    <thead>
+      <tr>
+        <th style="width:40%">Omschrijving</th>
+        <th style="width:16%">Bedrag</th>
+        <th style="width:12%">Aantal</th>
+        <th style="width:14%">Eenheid</th>
+        <th style="width:16%">Subtotaal</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody id="lines"></tbody>
+
+  </table>
+
+  <button class="add-line" onclick="addLine()">
+    + Regel toevoegen
+  </button>
+
+  <div class="totals-wrapper">
+
+    <div class="totals">
+
+      <div class="total-row">
+        <span>Totaal excl. BTW</span>
+        <span id="amount">€ 0.00</span>
+      </div>
+
+      <div class="total-row">
+        <span>BTW 21.0%</span>
+        <span id="vat">€ 0.00</span>
+      </div>
+
+      <div class="total-row grand-total">
+        <span>Totaalbedrag incl. 21% BTW</span>
+        <span id="total">€ 0.00</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="comments">
+    <label>Overige info</label>
+    <textarea id="comments" rows="3"></textarea>
+  </div>
+
+  <button class="create" onclick="createInvoice()">
+    CREATE INVOICE
+  </button>
+
+</div>
+
+<script>
+
+function clientChanged() {
+  const client = document.getElementById("client").value;
+
+  document.getElementById("newClient").style.display =
+    client === "new" ? "block" : "none";
+}
+
+function addLine() {
+
+  const tbody = document.getElementById("lines");
+  const row = document.createElement("tr");
+
+  row.innerHTML = `
+    <td>
+      <input class="description" placeholder="Omschrijving">
+    </td>
+
+    <td>
+      <input class="rate number"
+             type="number"
+             step="0.01"
+             value=""
+             oninput="calculate()">
+    </td>
+
+    <td>
+      <input class="quantity number"
+             type="number"
+             step="0.01"
+             value="1"
+             oninput="calculate()">
+    </td>
+
+    <td>
+      <select class="unit">
+        <option>Day</option>
+        <option>Hour</option>
+        <option>km</option>
+        <option>Item</option>
+        <option>Job</option>
+      </select>
+    </td>
+
+    <td class="subtotal">€ 0.00</td>
+
+    <td>
+      <button class="remove" onclick="removeLine(this)">×</button>
+    </td>
+  `;
+
+  tbody.appendChild(row);
+  calculate();
+}
+
+function removeLine(button) {
+  button.closest("tr").remove();
+  calculate();
+}
+
+function calculate() {
+
+  let amount = 0;
+
+  document.querySelectorAll("#lines tr").forEach(row => {
+
+    const rate =
+      parseFloat(row.querySelector(".rate").value) || 0;
+
+    const quantity =
+      parseFloat(row.querySelector(".quantity").value) || 0;
+
+    const subtotal = rate * quantity;
+
+    row.querySelector(".subtotal").textContent =
+      "€ " + subtotal.toFixed(2);
+
+    amount += subtotal;
+  });
+
+  const vat = amount * 0.21;
+  const total = amount + vat;
+
+  document.getElementById("amount").textContent =
+    "€ " + amount.toFixed(2);
+
+  document.getElementById("vat").textContent =
+    "€ " + vat.toFixed(2);
+
+  document.getElementById("total").textContent =
+    "€ " + total.toFixed(2);
+}
+
+function createInvoice() {
+  alert(
+    "Looks good! 😎\\n\\nNext we'll connect this button to n8n."
+  );
+}
+
+document.getElementById("invoiceDate").value =
+  new Date().toISOString().split("T")[0];
+
+addLine();
+
+</script>
+
+</body>
+</html>
