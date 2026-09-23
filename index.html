@@ -771,12 +771,33 @@ function calculate() {
 }
 
 
-function createInvoice() {
+async function createInvoice() {
 
-  alert(
-    "Invoice Creator is ready 😎\\n\\nNext step: connect CREATE INVOICE to n8n."
-  );
+  const data = {
+    message: "Hello from Ohad Invoice Creator"
+  };
 
+  try {
+
+    const response = await fetch(
+      "https://ohad1973arama.app.n8n.cloud/webhook-test/cc3960e6-57e6-4361-88e9-566bb2bc0d0e",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }
+    );
+
+    alert("Sent to n8n! 😎");
+
+  } catch (error) {
+
+    alert("Could not connect to n8n.");
+    console.error(error);
+
+  }
 }
 
 
