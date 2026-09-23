@@ -774,7 +774,11 @@ function calculate() {
 async function createInvoice() {
 
   const data = {
-    message: "Hello from Ohad Invoice Creator"
+     clientID: document.getElementById("client").value,
+  date: document.getElementById("invoiceDate").value,
+  project: document.getElementById("project").value,
+  period: document.getElementById("period").value,
+  comments: document.getElementById("comments").value
   };
 
   try {
