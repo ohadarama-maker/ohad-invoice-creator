@@ -772,13 +772,31 @@ function calculate() {
 
 
 async function createInvoice() {
+const lines = [];
 
+document.querySelectorAll("#lines tr").forEach(row => {
+
+  const description = row.querySelector(".description").value.trim();
+  const rate = Number(row.querySelector(".rate").value) || 0;
+  const quantity = Number(row.querySelector(".quantity").value) || 0;
+  const unit = row.querySelector(".unit").value;
+
+  lines.push({
+    description: description,
+    rate: rate,
+    quantity: quantity,
+    unit: unit,
+    subtotal: rate * quantity
+  });
+
+});
   const data = {
      clientID: document.getElementById("client").value,
   date: document.getElementById("invoiceDate").value,
   project: document.getElementById("project").value,
   period: document.getElementById("period").value,
-  comments: document.getElementById("comments").value
+  comments: document.getElementById("comments").value,
+  lines: lines
   };
 
   try {
