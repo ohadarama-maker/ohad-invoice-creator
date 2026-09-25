@@ -591,7 +591,9 @@ textarea:focus {
     CREATE INVOICE
 
   </button>
-
+<button type="button" onclick="clearInvoice()">
+  CLEAR / NEW INVOICE
+</button>
 
   <div class="footer">
 
@@ -832,7 +834,24 @@ document.getElementById("invoiceDate").value =
 /* FIRST LINE */
 
 addLine();
+function clearInvoice() {
+  // Clear the main invoice fields
+  document.getElementById("client").selectedIndex = 0;
+  document.getElementById("project").value = "";
+  document.getElementById("period").value = "";
+  document.getElementById("comments").value = "";
 
+  // Reset date to today
+  document.getElementById("invoiceDate").value =
+    new Date().toISOString().split("T")[0];
+
+  // Remove all existing invoice lines
+  const lines = document.getElementById("lines");
+  lines.innerHTML = "";
+
+  // Add one fresh empty line
+  addLine();
+}
 </script>
 
 </body>
