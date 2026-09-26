@@ -818,7 +818,11 @@ document.querySelectorAll("#lines tr").forEach(row => {
         body: JSON.stringify(data)
       }
     );
-
+if (!response.ok) {
+  const errorText = await response.text();
+  alert("n8n error " + response.status + ": " + errorText);
+  return;
+}
     alert("Sent to n8n! 😎");
 
   } catch (error) {
