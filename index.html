@@ -424,14 +424,22 @@ textarea:focus {
         <div class="new-client-grid">
 
           <div>
-            <label>Bedrijf</label>
-            <input id="company">
-          </div>
+<div class="new-client-grid">
 
-          <div>
-            <label>Contactpersoon</label>
-            <input id="contact">
-          </div>
+ <div>
+  <label>Client ID</label>
+  <input id="newClientID" placeholder="Bijv. HvA">
+</div>
+
+  <div>
+    <label>Bedrijf</label>
+    <input id="company">
+  </div>
+
+  <div>
+    <label>Contactpersoon</label>
+    <input id="contact">
+  </div>
 
           <div>
             <label>Adres</label>
@@ -447,7 +455,11 @@ textarea:focus {
             <label>Telefoon</label>
             <input id="phone">
           </div>
-
+<div>
+  <button type="button" onclick="addNewClient()">
+    ADD CLIENT
+  </button>
+</div>
         </div>
 
       </div>
