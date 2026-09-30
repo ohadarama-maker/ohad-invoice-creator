@@ -648,9 +648,9 @@ function clientChanged() {
   // Normal existing client
   newClient.style.display = "none";
 
-  const client = clientData.find(
-    c => c.ClientID === clientID
-  );
+const client = clientData.find(
+  c => String(c.ClientID).trim() === String(clientID).trim()
+);
 
   if (!client) {
     clientInfo.style.display = "none";
