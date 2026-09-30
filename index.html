@@ -627,14 +627,10 @@ textarea:focus {
 <script>
 
 function clientChanged() {
-alert("clientChanged fired!");
+
   const clientID =
     document.getElementById("client").value;
-alert(
-  "Selected ID: " + clientID +
-  "\n\nclientData:\n" +
-  JSON.stringify(clientData, null, 2)
-);
+
   const newClient =
     document.getElementById("newClient");
 
@@ -652,9 +648,9 @@ alert(
   // Normal existing client
   newClient.style.display = "none";
 
-const client = clientData.find(
-  c => String(c.ClientID).trim() === String(clientID).trim()
-);
+  const client = clientData.find(
+    c => String(c.ClientID).trim() === String(clientID).trim()
+  );
 
   if (!client) {
     clientInfo.style.display = "none";
