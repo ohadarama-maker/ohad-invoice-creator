@@ -630,7 +630,11 @@ function clientChanged() {
 alert("clientChanged fired!");
   const clientID =
     document.getElementById("client").value;
-
+alert(
+  "Selected ID: " + clientID +
+  "\n\nclientData:\n" +
+  JSON.stringify(clientData, null, 2)
+);
   const newClient =
     document.getElementById("newClient");
 
