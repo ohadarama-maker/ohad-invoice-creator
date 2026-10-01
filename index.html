@@ -684,7 +684,7 @@ function addLine() {
 
   row.innerHTML = `
 
-    <td>
+  <td>
 
   <select class="description" onchange="descriptionChanged(this)">
     <option value="">Kies omschrijving...</option>
@@ -696,6 +696,12 @@ function addLine() {
     <option value="Transport">Transport</option>
     <option value="Anders">Anders...</option>
   </select>
+
+  <input
+    class="custom-description"
+    type="text"
+    placeholder="Eigen omschrijving..."
+    style="display:none; margin-top:5px;">
 
 </td>
 
@@ -770,22 +776,17 @@ function addLine() {
 
 function descriptionChanged(select) {
 
-  if (select.value !== "Anders") return;
+  const customInput =
+    select.parentElement.querySelector(".custom-description");
 
-  const customDescription = prompt("Vul omschrijving in:");
-
-  if (customDescription && customDescription.trim()) {
-    const option = document.createElement("option");
-    option.value = customDescription.trim();
-    option.textContent = customDescription.trim();
-    option.selected = true;
-
-    select.appendChild(option);
+  if (select.value === "Anders") {
+    customInput.style.display = "block";
+    customInput.focus();
   } else {
-    select.value = "";
+    customInput.style.display = "none";
+    customInput.value = "";
   }
 }
-
  function removeLine(button) {
 
   button.closest("tr").remove();
@@ -861,7 +862,13 @@ const lines = [];
 
 document.querySelectorAll("#lines tr").forEach(row => {
 
-  const description = row.querySelector(".description").value.trim();
+  const descriptionSelect = row.querySelector(".description");
+const customDescription = row.querySelector(".custom-description");
+
+const description =
+  descriptionSelect.value === "Anders"
+    ? customDescription.value.trim()
+    : descriptionSelect.value.trim();
   const rate = Number(row.querySelector(".rate").value) || 0;
   const quantity = Number(row.querySelector(".quantity").value) || 0;
   const unit = row.querySelector(".unit").value;
