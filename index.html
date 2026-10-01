@@ -939,7 +939,35 @@ function clearInvoice() {
       return;
     }
 
-    alert("Client toegevoegd.");
+    // Add the new client to the local client list
+const newClient = {
+  ClientID: data.clientID,
+  Company: data.company,
+  "Contact Person": data.contact,
+  Address: data.address,
+  Email: data.email,
+  Phone: data.phone
+};
+
+clientData.push(newClient);
+
+// Add the new client to the dropdown
+const select = document.getElementById("client");
+const newClientOption = select.querySelector('option[value="new"]');
+
+const option = document.createElement("option");
+option.value = newClient.ClientID;
+option.textContent = newClient.Company;
+
+select.insertBefore(option, newClientOption);
+
+// Select the newly added client
+select.value = newClient.ClientID;
+
+// Hide the new-client form and show its client information
+clientChanged();
+
+alert("Client toegevoegd.");
 
   } catch (error) {
     alert("Kon client niet toevoegen.");
