@@ -866,7 +866,17 @@ if (!response.ok) {
   alert("n8n error " + response.status + ": " + errorText);
   return;
 }
-    alert("Sent to n8n! 😎");
+
+const result = await response.json();
+
+if (result.success) {
+  alert(
+    "Invoice " + result.invoiceNr +
+    " created successfully! 😎"
+  );
+} else {
+  alert("Invoice creation finished, but no confirmation was received.");
+}
 
   } catch (error) {
 
