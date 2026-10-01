@@ -1026,7 +1026,11 @@ const newClient = {
 };
 
 clientData.push(newClient);
-
+// Update the browser cache
+localStorage.setItem(
+  "invoiceClients",
+  JSON.stringify(clientData)
+);
 // Add the new client to the dropdown
 const select = document.getElementById("client");
 const newClientOption = select.querySelector('option[value="new"]');
