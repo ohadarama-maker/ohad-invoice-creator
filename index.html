@@ -701,7 +701,8 @@ function addLine() {
     class="custom-description"
     type="text"
     placeholder="Eigen omschrijving..."
-    style="display:none; margin-top:5px;">
+    style="display:none; margin-top:5px;"
+onchange="customDescriptionEntered(this)">
 
 </td>
 
@@ -787,7 +788,26 @@ function descriptionChanged(select) {
     customInput.value = "";
   }
 }
- function removeLine(button) {
+
+function customDescriptionEntered(input) {
+
+  const text = input.value.trim();
+  if (!text) return;
+
+  const select =
+    input.parentElement.querySelector(".description");
+
+  const option = document.createElement("option");
+  option.value = text;
+  option.textContent = text;
+  option.selected = true;
+
+  select.appendChild(option);
+
+  input.style.display = "none";
+}
+
+function removeLine(button) {
 
   button.closest("tr").remove();
 
