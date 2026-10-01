@@ -686,11 +686,18 @@ function addLine() {
 
     <td>
 
-      <input
-        class="description"
-        placeholder="Omschrijving">
+  <select class="description" onchange="descriptionChanged(this)">
+    <option value="">Kies omschrijving...</option>
+    <option value="Geluids-techniek">Geluids-techniek</option>
+    <option value="Reiskosten">Reiskosten</option>
+    <option value="Technical production">Technical production</option>
+    <option value="Apparatuur">Apparatuur</option>
+    <option value="Extra uren">Extra uren</option>
+    <option value="Transport">Transport</option>
+    <option value="Anders">Anders...</option>
+  </select>
 
-    </td>
+</td>
 
 
     <td>
@@ -761,7 +768,23 @@ function addLine() {
 }
 
 
-function removeLine(button) {
+function descriptionChanged(select) {
+
+  if (select.value !== "Anders") return;
+
+  const customDescription = prompt("Vul omschrijving in:");
+
+  if (customDescription && customDescription.trim()) {
+    const option = document.createElement("option");
+    option.value = customDescription.trim();
+    option.textContent = customDescription.trim();
+    option.selected = true;
+
+    select.appendChild(option);
+  } else {
+    select.value = "";
+  }
+}
 
   button.closest("tr").remove();
 
@@ -825,7 +848,12 @@ function calculate() {
 }
 
 
-async function createInvoice() {
+function formatDate(dateString) {
+  if (!dateString) return "";
+
+  const [year, month, day] = dateString.split("-");
+  return `${day}-${month}-${year}`;
+}
 const lines = [];
 
 document.querySelectorAll("#lines tr").forEach(row => {
@@ -848,7 +876,11 @@ document.querySelectorAll("#lines tr").forEach(row => {
      clientID: document.getElementById("client").value,
   date: document.getElementById("invoiceDate").value,
   project: document.getElementById("project").value,
-  period: document.getElementById("period").value,
+  period:
+ period:
+  formatDate(document.getElementById("periodFrom").value) +
+  " t/m " +
+  formatDate(document.getElementById("periodTo").value),
   comments: document.getElementById("comments").value,
   lines: lines
   };
@@ -904,7 +936,8 @@ function clearInvoice() {
   // Clear the main invoice fields
   document.getElementById("client").selectedIndex = 0;
   document.getElementById("project").value = "";
-  document.getElementById("period").value = "";
+  document.getElementById("periodFrom").value = "";
+document.getElementById("periodTo").value = "";
   document.getElementById("comments").value = "";
 
   // Reset date to today
