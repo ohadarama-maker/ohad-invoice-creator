@@ -856,6 +856,7 @@ function formatDate(dateString) {
   const [year, month, day] = dateString.split("-");
   return `${day}-${month}-${year}`;
 }
+ async function createInvoice() { 
 const lines = [];
 
 document.querySelectorAll("#lines tr").forEach(row => {
@@ -878,7 +879,6 @@ document.querySelectorAll("#lines tr").forEach(row => {
      clientID: document.getElementById("client").value,
   date: document.getElementById("invoiceDate").value,
   project: document.getElementById("project").value,
-  period:
  period:
   formatDate(document.getElementById("periodFrom").value) +
   " t/m " +
