@@ -602,13 +602,14 @@ textarea:focus {
 
   <!-- CREATE -->
 
-  <button class="create"
-          type="button"
-          onclick="createInvoice()">
+ <button class="create"
+        id="createInvoiceButton"
+        type="button"
+        onclick="createInvoice()">
 
-    CREATE INVOICE
+  CREATE INVOICE
 
-  </button>
+</button>
 <button class="clear"
         type="button"
         onclick="clearInvoice()">
@@ -877,6 +878,10 @@ function formatDate(dateString) {
   return `${day}-${month}-${year}`;
 }
  async function createInvoice() { 
+ const createButton = document.getElementById("createInvoiceButton");
+createButton.disabled = true;
+createButton.textContent = "⏳ CREATING INVOICE...";
+createButton.style.opacity = "0.6";  
 const lines = [];
 
 document.querySelectorAll("#lines tr").forEach(row => {
@@ -942,12 +947,18 @@ if (result.success) {
   alert("Invoice creation finished, but no confirmation was received.");
 }
 
-  } catch (error) {
+ } catch (error) {
 
-    alert("Could not connect to n8n.");
-    console.error(error);
+  alert("Could not connect to n8n.");
+  console.error(error);
 
-  }
+} finally {
+
+  createButton.disabled = false;
+  createButton.textContent = "CREATE INVOICE";
+  createButton.style.opacity = "1";
+
+}
 }
 
 
