@@ -877,8 +877,12 @@ function formatDate(dateString) {
   const [year, month, day] = dateString.split("-");
   return `${day}-${month}-${year}`;
 }
- async function createInvoice() { 
- const createButton = document.getElementById("createInvoiceButton");
+async function createInvoice() {
+
+const createButton = document.getElementById("createInvoiceButton");
+
+if (createButton.disabled) return;
+
 createButton.disabled = true;
 createButton.textContent = "⏳ CREATING INVOICE...";
 createButton.style.opacity = "0.6";  
