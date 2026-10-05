@@ -917,10 +917,13 @@ const description =
      clientID: document.getElementById("client").value,
   date: document.getElementById("invoiceDate").value,
   project: document.getElementById("project").value,
- period:
-  formatDate(document.getElementById("periodFrom").value) +
-  " t/m " +
-  formatDate(document.getElementById("periodTo").value),
+ period: (() => {
+  const from = formatDate(document.getElementById("periodFrom").value);
+  const to = formatDate(document.getElementById("periodTo").value);
+
+  if (!to || from === to) return from;
+  return from + " t/m " + to;
+})(),
   comments: document.getElementById("comments").value,
   lines: lines
   };
