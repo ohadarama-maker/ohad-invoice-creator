@@ -779,8 +779,18 @@ onchange="customDescriptionEntered(this)">
 
 function descriptionChanged(select) {
 
-  const customInput =
-    select.parentElement.querySelector(".custom-description");
+  const row = select.closest("tr");
+  const customInput = row.querySelector(".custom-description");
+  const unitSelect = row.querySelector(".unit");
+
+  const defaultUnits = {
+    "Geluids-techniek": "Dag",
+    "Technical production": "Dag",
+    "Reiskosten": "KM",
+    "Extra uren": "Uur"
+  };
+
+  unitSelect.value = defaultUnits[select.value] || "";
 
   if (select.value === "Anders") {
     customInput.style.display = "block";
