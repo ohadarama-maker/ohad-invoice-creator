@@ -993,6 +993,8 @@ addLine();
 function clearInvoice() {
   // Clear the main invoice fields
   document.getElementById("client").selectedIndex = 0;
+  document.getElementById("clientInfo").innerHTML = "";
+document.getElementById("clientInfo").style.display = "none";
   document.getElementById("project").value = "";
   document.getElementById("periodFrom").value = "";
 document.getElementById("periodTo").value = "";
