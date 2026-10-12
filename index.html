@@ -1011,7 +1011,19 @@ function getProjectPeriod() {
     const dates = [...document.querySelectorAll("#individualDateList input")]
       .map(input => input.value)
       .filter(Boolean);
-    return [...new Set(dates)].sort().map(formatDate).join(", ");
+    const uniqueDates = [...new Set(dates)].sort();
+    const groups = [];
+    for (const date of uniqueDates) {
+      const [year, month, day] = date.split("-");
+      const key = `${year}-${month}`;
+      if (!groups.length || groups[groups.length - 1].key !== key) {
+        groups.push({ key, year, month, days: [] });
+      }
+      groups[groups.length - 1].days.push(day);
+    }
+    return groups.map(group =>
+      `${group.days.join(", ")}-${group.month}-${group.year.slice(-2)}`
+    ).join(", ");
   }
   const from = formatDate(document.getElementById("periodFrom").value);
   const to = formatDate(document.getElementById("periodTo").value);
