@@ -1,3 +1,4 @@
+```
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -387,6 +388,13 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.date-mode-picker { display:flex; flex-wrap:wrap; gap:12px; margin:0 0 9px; }
+.date-mode-picker label { display:flex; align-items:center; gap:5px; margin:0; font-size:11px; text-transform:none; letter-spacing:0; cursor:pointer; }
+.date-mode-picker input { width:auto; margin:0; }
+.individual-date-row { display:flex; gap:6px; align-items:center; margin-bottom:6px; }
+.individual-date-row input { min-width:0; flex:1; }
+.individual-date-row button { border:1px solid #ccdce8; border-radius:4px; background:#fff; cursor:pointer; padding:7px 10px; color:#a61b1b; }
+
 /* V3 visual refresh — presentation only; existing JavaScript unchanged */
 :root { --navy:#122c49; --blue:#24618f; --soft:#eaf4fb; --line:#d7e3ed; }
 body { background:#eaf0f5; color:#1c2936; }
@@ -562,12 +570,20 @@ input:focus, select:focus, textarea:focus { border-color:var(--blue); box-shadow
     </div>
 
    <div>
-  <label>Periode</label>
-  <div style="display:flex; gap:8px; align-items:center;">
-    <input type="date" id="periodFrom">
-    <span>t/m</span>
-    <input type="date" id="periodTo">
-  </div>
+     <label>Projectdata</label>
+   <div class="date-mode-picker">
+     <label><input type="radio" name="projectDateMode" value="range" checked onchange="switchProjectDateMode()"> Periode (van / t/m)</label>
+     <label><input type="radio" name="projectDateMode" value="individual" onchange="switchProjectDateMode()"> Losse datums</label>
+</div>
+   <div id="dateRangeFields" style="display:flex; gap:8px; align-items:center;">
+<input type="date" id="periodFrom" aria-label="Van datum">
+<span>t/m</span>
+<input type="date" id="periodTo" aria-label="Tot datum">
+</div>
+   <div id="individualDateFields" style="display:none;">
+     <div id="individualDateList"></div>
+     <button type="button" class="add-line" style="margin-top:7px;" onclick="addProjectDate()">+ Datum toevoegen</button>
+   </div>
 </div>
 
   </div>
@@ -966,6 +982,43 @@ function formatDate(dateString) {
   const [year, month, day] = dateString.split("-");
   return `${day}-${month}-${year}`;
 }
+function switchProjectDateMode() {
+  const individual = document.querySelector('input[name="projectDateMode"]:checked').value === "individual";
+  document.getElementById("dateRangeFields").style.display = individual ? "none" : "flex";
+  document.getElementById("individualDateFields").style.display = individual ? "block" : "none";
+  if (individual && !document.querySelector("#individualDateList input")) addProjectDate();
+}
+
+function addProjectDate(value = "") {
+  const row = document.createElement("div");
+  row.className = "individual-date-row";
+  const input = document.createElement("input");
+  input.type = "date";
+  input.setAttribute("aria-label", "Losse projectdatum");
+  input.value = value;
+  const remove = document.createElement("button");
+  remove.type = "button";
+  remove.textContent = "×";
+  remove.setAttribute("aria-label", "Verwijder datum");
+  remove.onclick = () => row.remove();
+  row.append(input, remove);
+  document.getElementById("individualDateList").appendChild(row);
+}
+
+function getProjectPeriod() {
+  const mode = document.querySelector('input[name="projectDateMode"]:checked').value;
+  if (mode === "individual") {
+    const dates = [...document.querySelectorAll("#individualDateList input")]
+      .map(input => input.value)
+      .filter(Boolean);
+    return [...new Set(dates)].sort().map(formatDate).join(", ");
+  }
+  const from = formatDate(document.getElementById("periodFrom").value);
+  const to = formatDate(document.getElementById("periodTo").value);
+  if (!to || from === to) return from;
+  return from + " t/m " + to;
+}
+
 async function createInvoice() {
 
 const createButton = document.getElementById("createInvoiceButton");
@@ -1003,13 +1056,7 @@ const description =
      clientID: document.getElementById("client").value,
   date: document.getElementById("invoiceDate").value,
   project: document.getElementById("project").value,
- period: (() => {
-  const from = formatDate(document.getElementById("periodFrom").value);
-  const to = formatDate(document.getElementById("periodTo").value);
-
-  if (!to || from === to) return from;
-  return from + " t/m " + to;
-})(),
+  period: getProjectPeriod(),
   comments: document.getElementById("comments").value,
   lines: lines
   };
@@ -1075,6 +1122,9 @@ document.getElementById("clientInfo").style.display = "none";
   document.getElementById("project").value = "";
   document.getElementById("periodFrom").value = "";
 document.getElementById("periodTo").value = "";
+  document.querySelector('input[name="projectDateMode"][value="range"]').checked = true;
+  document.getElementById("individualDateList").innerHTML = "";
+  switchProjectDateMode();
   document.getElementById("comments").value = "";
 
   // Reset date to today
@@ -1247,3 +1297,4 @@ loadClients();
 </body>
 </html>
  
+```
