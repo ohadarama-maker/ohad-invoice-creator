@@ -386,6 +386,51 @@ input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
+
+/* V3 visual refresh — presentation only; existing JavaScript unchanged */
+:root { --navy:#122c49; --blue:#24618f; --soft:#eaf4fb; --line:#d7e3ed; }
+body { background:#eaf0f5; color:#1c2936; }
+.invoice { max-width:980px; padding:0 46px 35px; border-radius:5px; overflow:hidden; box-shadow:0 12px 36px rgba(16,42,67,.14); }
+.header { position:relative; margin:0 -46px 28px; padding:34px 46px 32px; align-items:center; background:var(--navy); color:#fff; overflow:hidden; }
+.header::after { content:""; position:absolute; right:-20px; bottom:0; width:65%; height:65px; opacity:.23; pointer-events:none; background:repeating-radial-gradient(ellipse at 50% 110%, transparent 0 11px, #85c7ee 12px 13px, transparent 14px 25px); transform:skewX(-12deg); }
+.logo { position:relative; z-index:1; max-height:105px; object-fit:contain; object-position:left center; }
+.invoice-heading { position:relative; z-index:1; }
+.invoice-heading h1 { color:#fff; font-size:36px; letter-spacing:2px; font-weight:750; }
+.invoice-heading span { color:#b9d8ef; letter-spacing:.6px; }
+.info-area { gap:38px; margin-bottom:24px; }
+.company-details { color:#43566a; line-height:1.65; }
+.company-details strong { color:var(--navy); }
+label { color:var(--blue); font-size:11px; letter-spacing:.7px; }
+input, select, textarea { border-color:#ccdce8; border-radius:5px; background:#fff; }
+input:focus, select:focus, textarea:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(36,97,143,.1); }
+.new-client { background:var(--soft); border-left-color:var(--blue); }
+.invoice-meta { border-top:2px solid var(--blue); padding-top:22px; }
+.invoice-table { border:1px solid var(--line); }
+.invoice-table th { background:#e5f1fa; color:#111; font-weight:800; font-size:12px; border-bottom:2px solid var(--blue); padding:13px 9px; }
+.invoice-table td { border-bottom:1px solid var(--line); padding:9px 5px; }
+.invoice-table tbody tr:nth-child(even) { background:#f7fbfe; }
+.invoice-table td input, .invoice-table td select { font-size:13px; }
+.add-line { border-color:var(--blue); color:var(--blue); }
+.add-line:hover { background:var(--soft); }
+.totals-wrapper { margin-top:26px; }
+.totals { width:400px; }
+.total-row { border-bottom:1px solid var(--line); }
+.grand-total { background:var(--navy); border-radius:3px; padding:14px 12px; }
+.create { background:var(--blue); border-radius:5px; }
+.create:hover { background:var(--navy); }
+.footer { border-top:2px solid var(--blue); color:#597086; padding-top:16px; margin-top:44px; }
+.creator-note { margin-top:25px; padding:15px 18px; background:var(--soft); border-left:4px solid var(--blue); color:#284e6d; font-size:12px; line-height:1.6; }
+@media(max-width:700px) {
+  body { background:#fff; }
+  .invoice { padding:0 16px 28px; border-radius:0; }
+  .header { margin:0 -16px 25px; padding:25px 16px; }
+  .logo { max-width:42%; }
+  .invoice-heading h1 { font-size:25px; }
+  .invoice-table { min-width:680px; }
+  .table-wrapper { overflow-x:auto; }
+  .totals { width:100%; }
+}
+
 </style>
 </head>
 
@@ -632,6 +677,8 @@ input[type="number"] {
     </div>
 
   </div>
+
+  <div class="creator-note">De betaalgegevens en QR-code worden automatisch toegevoegd aan de definitieve PDF-factuur.</div>
 
   <!-- CREATE -->
 
