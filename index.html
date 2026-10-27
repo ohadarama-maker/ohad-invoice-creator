@@ -439,10 +439,35 @@ input:focus, select:focus, textarea:focus { border-color:var(--blue); box-shadow
   .totals { width:100%; }
 }
 
+
+/* Invoice creation animation overlay */
+#invoiceAnimationOverlay[hidden]{display:none!important}
+#invoiceAnimationOverlay{position:fixed;inset:0;z-index:9999;background:#0a1020;animation:invoiceOverlayIn .35s ease}
+#invoiceAnimationFrame{display:block;width:100%;height:100%;border:0}
+@keyframes invoiceOverlayIn{from{opacity:0}to{opacity:1}}
 </style>
 </head>
 
 <body>
+<div id="invoiceAnimationOverlay" role="dialog" aria-modal="true" aria-label="Invoice creation status" hidden><iframe id="invoiceAnimationFrame" title="Invoice creation animation" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;&lt;title&gt;Invoice Creation — Animation Preview&lt;/title&gt;
+&lt;style&gt;
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;color:#e9eefb;background:#0a1020}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 18%,#1d3260 0%,#0a1020 65%)}.shell{width:min(92vw,590px);text-align:center;padding:35px 22px}.eyebrow{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#93a8d5;font-weight:700}.title{font-size:clamp(27px,5vw,37px);letter-spacing:-.035em;margin:10px 0}.sub{color:#9aaac9;margin:0 0 25px;font-size:14px}.stage{position:relative;min-height:340px;display:flex;align-items:center;justify-content:center}.glow{position:absolute;width:290px;height:290px;background:#3d70e8;filter:blur(85px);opacity:.25;border-radius:50%;animation:breathe 3s ease-in-out infinite}.paper{position:relative;background:#fff;color:#283550;width:205px;height:266px;border-radius:11px;box-shadow:0 26px 60px #0008;transform:translateY(12px) rotate(-3deg) scale(.94);opacity:0;overflow:hidden}.paper.show{animation:paperIn .9s cubic-bezier(.18,.85,.22,1) forwards}.paper.exit{animation:paperOut .85s ease-in forwards}.paper:before{content:&quot;&quot;;position:absolute;inset:0 0 auto;height:7px;background:linear-gradient(90deg,#548bff,#7ad8ff)}.paper-inner{padding:23px 20px;text-align:left}.paper-head{font-size:20px;font-weight:800;letter-spacing:-.04em;margin-bottom:5px}.paper-small{font-size:8px;color:#8b9ab0;margin-bottom:27px}.line{height:7px;background:#e6eaf2;border-radius:10px;margin-bottom:10px;transform:scaleX(0);transform-origin:left}.paper.show .line{animation:write .45s ease forwards}.paper.show .line:nth-of-type(1){animation-delay:1s}.paper.show .line:nth-of-type(2){animation-delay:1.35s}.paper.show .line:nth-of-type(3){animation-delay:1.7s}.paper.show .line:nth-of-type(4){animation-delay:2.05s}.paper.show .line:nth-of-type(5){animation-delay:2.4s}.line.wide{width:100%}.line.med{width:73%}.line.short{width:46%}.divider{height:1px;background:#e9edf4;margin:17px 0}.amount{display:flex;justify-content:space-between;font-size:12px;font-weight:800}.stamp{position:absolute;right:-12px;bottom:33px;border:2px solid #3dbb86;color:#21996b;padding:6px 17px;border-radius:5px;font-size:12px;font-weight:900;transform:rotate(-12deg) scale(2);opacity:0}.paper.show .stamp{animation:stamp .45s 4.5s ease forwards}.orbit{position:absolute;inset:0;pointer-events:none}.spark{position:absolute;width:6px;height:6px;border-radius:50%;background:#80d5ff;opacity:0;animation:twinkle 2.3s infinite}.spark:nth-child(1){top:20%;left:20%}.spark:nth-child(2){top:27%;right:17%;animation-delay:.6s}.spark:nth-child(3){bottom:22%;left:16%;animation-delay:1.1s}.spark:nth-child(4){bottom:28%;right:19%;animation-delay:1.6s}.check{position:absolute;width:124px;height:124px;border-radius:50%;background:linear-gradient(145deg,#34c891,#1c9b77);display:grid;place-items:center;box-shadow:0 18px 55px #12b88655;opacity:0;transform:scale(.4)}.check.show{animation:pop .65s cubic-bezier(.2,1.5,.5,1) forwards}.check svg{width:67px;stroke:white;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;fill:none;stroke-dasharray:95;stroke-dashoffset:95}.check.show svg{animation:tick .6s .35s ease forwards}.status{min-height:32px;font-weight:650;font-size:18px}.detail{min-height:30px;color:#95a7c9;font-size:13px;margin-top:5px}.progress{width:min(100%,350px);height:5px;background:#263653;border-radius:50px;margin:24px auto 0;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#5c8eff,#7ce1dc);border-radius:50px;transition:width .7s ease}.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:26px}button{font:inherit;border:0;border-radius:12px;padding:12px 20px;font-weight:700;cursor:pointer}button.primary{background:#7ba9ff;color:#09142b}button.secondary{background:#1e2b46;color:#dce6ff;border:1px solid #394b70}button:hover{filter:brightness(1.1)}.actions[hidden]{display:none!important}.note{color:#7588ab;font-size:12px;margin-top:28px;line-height:1.5}@keyframes paperIn{to{opacity:1;transform:translateY(0) rotate(0) scale(1)}}@keyframes paperOut{to{opacity:0;transform:translateY(-60px) rotate(8deg) scale(.5)}}@keyframes write{to{transform:scaleX(1)}}@keyframes stamp{to{transform:rotate(-12deg) scale(1);opacity:.9}}@keyframes breathe{50%{opacity:.42;transform:scale(1.15)}}@keyframes twinkle{35%{opacity:1;transform:scale(1.8)}70%{opacity:0}}@keyframes pop{to{opacity:1;transform:scale(1)}}@keyframes tick{to{stroke-dashoffset:0}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;main class=&quot;shell&quot;&gt;&lt;div class=&quot;eyebrow&quot;&gt;Invoice Creator · Animation Concept&lt;/div&gt;&lt;h1 class=&quot;title&quot;&gt;Making your invoice&lt;/h1&gt;&lt;p class=&quot;sub&quot;&gt;A preview of what customers see while n8n works&lt;/p&gt;&lt;div class=&quot;stage&quot;&gt;&lt;div class=&quot;glow&quot;&gt;&lt;/div&gt;&lt;div class=&quot;orbit&quot;&gt;&lt;i class=&quot;spark&quot;&gt;&lt;/i&gt;&lt;i class=&quot;spark&quot;&gt;&lt;/i&gt;&lt;i class=&quot;spark&quot;&gt;&lt;/i&gt;&lt;i class=&quot;spark&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class=&quot;paper&quot; id=&quot;paper&quot;&gt;&lt;div class=&quot;paper-inner&quot;&gt;&lt;div class=&quot;paper-head&quot;&gt;INVOICE&lt;/div&gt;&lt;div class=&quot;paper-small&quot;&gt;Ohad SoundTechnician&lt;/div&gt;&lt;div class=&quot;line wide&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line med&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line short&quot;&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line wide&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line med&quot;&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;div class=&quot;amount&quot;&gt;&lt;span&gt;TOTAL&lt;/span&gt;&lt;span&gt;€ —&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;stamp&quot;&gt;PDF READY&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;check&quot; id=&quot;check&quot;&gt;&lt;svg viewBox=&quot;0 0 80 80&quot;&gt;&lt;path d=&quot;M17 41 L33 56 L64 23&quot;/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;status&quot; id=&quot;status&quot; aria-live=&quot;polite&quot;&gt;Preparing your invoice…&lt;/div&gt;&lt;div class=&quot;detail&quot; id=&quot;detail&quot;&gt;Setting everything up&lt;/div&gt;&lt;div class=&quot;progress&quot;&gt;&lt;div class=&quot;bar&quot; id=&quot;bar&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;actions&quot; id=&quot;completeActions&quot; hidden&gt;&lt;button class=&quot;primary&quot; id=&quot;another&quot;&gt;Create another invoice&lt;/button&gt;&lt;button class=&quot;secondary&quot; id=&quot;back&quot;&gt;Back to invoice&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;note&quot; id=&quot;waitingNote&quot;&gt;Please keep this page open while your invoice is created.&lt;/p&gt;&lt;/main&gt;&lt;script&gt;
+const paper=document.getElementById(&#x27;paper&#x27;),check=document.getElementById(&#x27;check&#x27;),status=document.getElementById(&#x27;status&#x27;),detail=document.getElementById(&#x27;detail&#x27;),bar=document.getElementById(&#x27;bar&#x27;);
+let timers=[],running=false,stage=0;
+function later(fn,ms){timers.push(setTimeout(fn,ms))}
+function clearTimers(){timers.forEach(clearTimeout);timers=[]}
+function reset(){clearTimers();running=true;stage=0;paper.className=&#x27;paper&#x27;;check.className=&#x27;check&#x27;;bar.style.width=&#x27;0&#x27;;document.querySelector(&#x27;.title&#x27;).textContent=&#x27;Making your invoice&#x27;;status.textContent=&#x27;Preparing your invoice…&#x27;;detail.textContent=&#x27;Setting everything up&#x27;;document.getElementById(&#x27;completeActions&#x27;).hidden=true;document.getElementById(&#x27;waitingNote&#x27;).textContent=&#x27;Please keep this page open while your invoice is created.&#x27;;void paper.offsetWidth;paper.classList.add(&#x27;show&#x27;);
+const steps=[[1400,&#x27;Adding invoice details…&#x27;,&#x27;Preparing client and project information&#x27;,&#x27;23%&#x27;],[3500,&#x27;Generating your PDF…&#x27;,&#x27;Your document is being prepared&#x27;,&#x27;48%&#x27;],[5700,&#x27;Saving your invoice…&#x27;,&#x27;Processing the invoice workflow&#x27;,&#x27;72%&#x27;],[7700,&#x27;Finishing up…&#x27;,&#x27;Waiting for confirmation from n8n&#x27;,&#x27;91%&#x27;]];
+steps.forEach(([ms,s,d,w])=&gt;later(()=&gt;{if(!running)return;status.textContent=s;detail.textContent=d;bar.style.width=w},ms));
+}
+function success(invoiceNr){running=false;clearTimers();paper.classList.add(&#x27;exit&#x27;);later(()=&gt;{check.classList.add(&#x27;show&#x27;);status.textContent=&#x27;Invoice &#x27;+(invoiceNr ? &#x27;#&#x27;+invoiceNr+&#x27; &#x27; : &#x27;&#x27;)+&#x27;created successfully!&#x27;;detail.textContent=&#x27;Your invoice has been confirmed by n8n.&#x27;;bar.style.width=&#x27;100%&#x27;;document.querySelector(&#x27;.title&#x27;).textContent=&#x27;All done!&#x27;;document.getElementById(&#x27;completeActions&#x27;).hidden=false;document.getElementById(&#x27;waitingNote&#x27;).textContent=&#x27;&#x27;;},650)}
+function fail(message){running=false;clearTimers();paper.classList.remove(&#x27;exit&#x27;);document.querySelector(&#x27;.title&#x27;).textContent=&#x27;Could not confirm invoice&#x27;;status.textContent=&#x27;Please check before trying again&#x27;;detail.textContent=message || &#x27;Something went wrong.&#x27;;bar.style.width=&#x27;0&#x27;;document.getElementById(&#x27;completeActions&#x27;).hidden=false;document.getElementById(&#x27;waitingNote&#x27;).textContent=&#x27;If the connection failed, check your invoice register before resubmitting to avoid duplicates.&#x27;;}
+window.addEventListener(&#x27;message&#x27;,e=&gt;{if(e.data?.type===&#x27;invoice-animation-start&#x27;)reset();if(e.data?.type===&#x27;invoice-animation-success&#x27;)success(e.data.invoiceNr);if(e.data?.type===&#x27;invoice-animation-error&#x27;)fail(e.data.message)});
+document.getElementById(&#x27;another&#x27;).onclick=()=&gt;parent.postMessage({type:&#x27;invoice-animation-new&#x27;},&#x27;*&#x27;);
+document.getElementById(&#x27;back&#x27;).onclick=()=&gt;parent.postMessage({type:&#x27;invoice-animation-close&#x27;},&#x27;*&#x27;);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe></div>
 
 <div class="invoice">
 
@@ -725,6 +750,31 @@ input:focus, select:focus, textarea:focus { border-color:var(--blue); box-shadow
 
 
 <script>
+
+const invoiceAnimationOverlay = document.getElementById('invoiceAnimationOverlay');
+const invoiceAnimationFrame = document.getElementById('invoiceAnimationFrame');
+function invoiceAnimationMessage(type, extra={}) {
+  invoiceAnimationFrame.contentWindow.postMessage({type, ...extra}, '*');
+}
+function openInvoiceAnimation() {
+  invoiceAnimationOverlay.hidden = false;
+  document.body.style.overflow = 'hidden';
+  invoiceAnimationMessage('invoice-animation-start');
+}
+function closeInvoiceAnimation() {
+  invoiceAnimationOverlay.hidden = true;
+  document.body.style.overflow = '';
+}
+window.addEventListener('message', event => {
+  if (event.source !== invoiceAnimationFrame.contentWindow) return;
+  if (event.data?.type === 'invoice-animation-close') closeInvoiceAnimation();
+  if (event.data?.type === 'invoice-animation-new') {
+    closeInvoiceAnimation();
+    clearInvoice();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+});
+
 
 function clientChanged() {
 
@@ -1039,7 +1089,8 @@ if (createButton.disabled) return;
 
 createButton.disabled = true;
 createButton.textContent = "⏳ CREATING INVOICE...";
-createButton.style.opacity = "0.6";  
+createButton.style.opacity = "0.6";
+ openInvoiceAnimation();  
 const lines = [];
 
 document.querySelectorAll("#lines tr").forEach(row => {
@@ -1099,12 +1150,12 @@ if (result.success) {
     " created successfully! 😎"
   );
 } else {
-  alert("Invoice creation finished, but no confirmation was received.");
+  invoiceAnimationMessage("invoice-animation-error", {message: "The workflow returned no success confirmation. Check the invoice register before trying again."});
 }
 
  } catch (error) {
 
-  alert("Could not connect to n8n.");
+  invoiceAnimationMessage("invoice-animation-error", {message: "Could not connect to n8n. Check the invoice register before trying again."});
   console.error(error);
 
 } finally {
